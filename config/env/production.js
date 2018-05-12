@@ -26,10 +26,10 @@ module.exports = {
    ***************************************************************************/
 
   port: 94,
-  realHost: "https://teenpatti.kingsplay.co",
-  emails: ["chintan@wohlig.com", "jagruti@wohlig.com", "tushar@wohlig.com", "chirag@wohlig.com", "harsh@wohlig.com", "sayali.ghule@wohlig.com", "prajakta.kamble@wohlig.com"],
-  backendUrl: "https://kingsplay.co",
-  mongodbUrl: "mongodb://chintan:harsh123456789@kingsplay-shard-00-00-pdz4r.gcp.mongodb.net:27017,kingsplay-shard-00-01-pdz4r.gcp.mongodb.net:27017,kingsplay-shard-00-02-pdz4r.gcp.mongodb.net:27017/databaseName?authSource=admin&replicaSet=KingsPlay-shard-0&ssl=true",
+  realHost: "http://demo.demo",
+  //emails: ["chintan@wohlig.com", "jagruti@wohlig.com", "tushar@wohlig.com", "chirag@wohlig.com", "harsh@wohlig.com", "sayali.ghule@wohlig.com", "prajakta.kamble@wohlig.com"],
+  //backendUrl: "https://kingsplay.co",
+  //mongodbUrl: "mongodb://chintan:harsh123456789@kingsplay-shard-00-00-pdz4r.gcp.mongodb.net:27017,kingsplay-shard-00-01-pdz4r.gcp.mongodb.net:27017,kingsplay-shard-00-02-pdz4r.gcp.mongodb.net:27017/databaseName?authSource=admin&replicaSet=KingsPlay-shard-0&ssl=true",
 
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *

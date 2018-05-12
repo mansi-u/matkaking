@@ -24,19 +24,19 @@ process.chdir(__dirname);
 global.mongoose = require('mongoose');
 var _ = require('lodash');
 global.Grid = require('gridfs-stream');
-global.database = "teenpatti";
+global.database = "test";
 mongoose.Promise = global.Promise;
-
-if (process.env.name == "Teenpatti - 94") {
-    global.envType = "production";
-    global.env = require("./config/env/production.js");
-} else if (process.env.name == "Teenpatti Testing - 94") {
-    global.envType = "testing";
-    global.env = require("./config/env/development.js");
-} else {
-    global.envType = "development";
-    global.env = require("./config/env/development.js");
-}
+global.env = "mongodb://localhost:27017/databaseName";
+// if (process.env.name == "Teenpatti - 94") {
+//     global.envType = "production";
+//     global.env = require("./config/env/production.js");
+// } else if (process.env.name == "Teenpatti Testing - 94") {
+//     global.envType = "testing";
+//     global.env = require("./config/env/development.js");
+// } else {
+//     global.envType = "development";
+//     global.env = require("./config/env/development.js");
+// }
 global.mongourl = _.replace(env.mongodbUrl, "databaseName", database);
 mongoose.connect(mongourl, {
     useMongoClient: true
