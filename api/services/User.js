@@ -15,7 +15,7 @@ var schema = new Schema({
             index: true
         },
       coins: {
-        type: number,
+        type: Number,
         default: 0
       },
     oauthLogin: {
