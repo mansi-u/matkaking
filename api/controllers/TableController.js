@@ -5,8 +5,8 @@ var controller = {
         Table.addUserToTable(req.body, res.callback);
     },
     getTable: function (res) {
-        Table.getAllTable(res.callback);
-    },
+        Table.getTable(res.callback);
+    },  
     getAllTable: function (res) {
         Table.getAllTable(res.callback);
     },
