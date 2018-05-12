@@ -26,7 +26,7 @@ var _ = require('lodash');
 global.Grid = require('gridfs-stream');
 global.database = "test";
 mongoose.Promise = global.Promise;
-global.env = "mongodb://localhost:27017/databaseName";
+var mongodbUrl = "mongodb://localhost:27017/databaseName";
 // if (process.env.name == "Teenpatti - 94") {
 //     global.envType = "production";
 //     global.env = require("./config/env/production.js");
@@ -37,7 +37,7 @@ global.env = "mongodb://localhost:27017/databaseName";
 //     global.envType = "development";
 //     global.env = require("./config/env/development.js");
 // }
-global.mongourl = _.replace(env.mongodbUrl, "databaseName", database);
+global.mongourl = _.replace(mongodbUrl, "databaseName", database);
 mongoose.connect(mongourl, {
     useMongoClient: true
 }, function (err, db) {});
