@@ -1,75 +1,37 @@
 var schema = new Schema({
+  
     name: {
-        type: String,
-        required: true,
-        excel: true,
-    },
-    email: {
-        type: String,
-        validate: validators.isEmail(),
-        excel: "User Email",
-        unique: true
-    },
-    dob: {
-        type: Date,
-        excel: {
-            name: "Birthday",
-            modify: function (val, data) {
-                return moment(val).format("MMM DD YYYY");
-            }
-        }
-    },
-    photo: {
-        type: String,
-        default: "",
-        excel: [{
-            name: "Photo Val"
-        }, {
-            name: "Photo String",
-            modify: function (val, data) {
-                return "http://abc/" + val;
-            }
-        }, {
-            name: "Photo Kebab",
-            modify: function (val, data) {
-                return data.name + " " + moment(data.dob).format("MMM DD YYYY");
-            }
-        }]
-    },
-    password: {
-        type: String,
-        default: ""
-    },
-    forgotPassword: {
-        type: String,
-        default: ""
-    },
-    mobile: {
-        type: String,
-        default: ""
-    },
-    otp: {
-        type: String,
-        default: ""
-    },
-    accessToken: {
-        type: [String],
-        index: true
-    },
-    googleAccessToken: String,
-    googleRefreshToken: String,
+            type: String,
+            required: true,
+    
+        },
+        email: {
+            type: String,
+            validate: validators.isEmail(),
+            unique: true
+        },
+           accessToken: {
+            type: [String],
+            index: true
+        },
+      coins: {
+        type: number,
+        default: 0
+      },
     oauthLogin: {
-        type: [{
-            socialId: String,
-            socialProvider: String
-        }],
-        index: true
-    },
-    accessLevel: {
-        type: String,
-        default: "User",
-        enum: ['User', 'Admin']
+             type: [{
+                 socialId: String,
+                 socialProvider: String
+             }],
+             index: true
+         },
+    photo: {
+             type: String,
+          default: ""
     }
+    
+    
+    
 });
 
 schema.plugin(deepPopulate, {
@@ -86,7 +48,7 @@ module.exports = mongoose.model('User', schema);
 
 var exports = _.cloneDeep(require("sails-wohlig-service")(schema, "user", "user"));
 var model = {
-    existsSocial: function (user, callback) {
+    existsSocial1: function (user, callback) {
         var Model = this;
         Model.findOne({
             "oauthLogin.socialId": user.id,
@@ -138,6 +100,53 @@ var model = {
             }
         });
     },
+    existsSocial: function (user, callback) {
+        var Model = this;
+        Model.findOne({
+            "oauthLogin.socialId": user.id,
+            "oauthLogin.socialProvider": user.provider,
+        }).exec(function (err, data) {
+            if (err) {
+                callback(err, data);
+            } else if (_.isEmpty(data)) {
+                var modelUser = {
+                    name: user.displayName,
+                    accessToken: [uid(16)],
+                    oauthLogin: [{
+                        socialId: user.id,
+                        socialProvider: user.provider,
+                    }],
+                    coins: Config.intialAmount
+                };
+                if (user.emails && user.emails.length == 0) {
+                    callback("Please Provide Email Address.");                    
+                }
+               modelUser.email = user.emails[0].value;
+                
+                if (user.image && user.image.url) {
+                    modelUser.photo = user.image.url;
+                }
+                Model.saveData(modelUser, function (err, data2) {
+                    if (err) {
+                        callback(err, data2);
+                    } else {
+                        data3 = data2.toObject();
+                        delete data3.oauthLogin;
+                        
+                        callback(err, data3);
+                    }
+                });
+            } else {
+                //delete data.oauthLogin;
+                 data.accessToken = [uid(16)];
+                //data.googleAccessToken = user.googleAccessToken;
+                data.save(callback);
+                //callback(err, data);
+            }
+        });
+    },
+
+
     profile: function (data, callback, getGoogle) {
         var str = "name email photo mobile accessLevel";
         if (getGoogle) {

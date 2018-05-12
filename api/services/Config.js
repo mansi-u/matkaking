@@ -27,6 +27,7 @@ var models = {
     autoFoldDelay: 20,
     minmumBalanceMultiplier: 10,
     maxRow: 10,
+    intialAmount: 500,
     backendUrl: env.backendUrl,
     getForeignKeys: function (schema) {
         var arr = [];

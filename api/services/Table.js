@@ -1,47 +1,10 @@
 var schema = new Schema({
-
-    minimumBuyin: {
-        type: Number,
-        require: true
-    },
-    tableShow: {
-        type: Number
-    },
-
-    bootAmt: {
+    cards: {type:[],
+         default:[]},
+    activePlayers: {
         type: Number,
         default: 0
     },
-    blindAmt: {
-        type: Number,
-        require: true
-    },
-    chalAmt: {
-        type: Number,
-        require: true
-    },
-    maximumNoOfPlayers: {
-        type: Number,
-        default: 9,
-        require: true
-    },
-    name: {
-        type: String,
-        require: true,
-        unique: true,
-        index: true
-    },
-    image: {
-        type: String,
-        default: ""
-    },
-    isOpen: Boolean,
-    dealer: Number,
-    timeoutTime: Number,
-    activePlayer: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Player'
-    }],
     status: {
         type: String,
         enum: [
@@ -50,23 +13,9 @@ var schema = new Schema({
             'winner'
         ],
         default: 'beforeStart'
-    },
-    type: {
-        type: String,
-        enum: ["public", "private"],
-        default: "public"
-    },
-    gameType: {
-        type: String,
-        enum: ["Normal", "Lowest", "2 Cards", "4 Cards", "Joker"],
-        default: 'Normal'
-    },
-    jokerCardValue: {
-        type: String,
-        default: ""
-    },
-    password: String,
-    creator: Schema.Types.ObjectId
+    }
+
+
 
 });
 
@@ -91,7 +40,18 @@ var model = {
         this.find({}).exec(callback);
         Player.blastSocket(data.tableId)
     },
-
+    getTable: function(callback){
+        Table.findOne({
+            activePlayers: {$lt:4}
+        }).exec(function(err, table){
+               if(table){
+                   callback(err, table)
+               }else{
+                   var table = new Table({});
+                   table.save(callback);
+               }
+        });
+    },
 
     /**
      * @function {function makePlayerInactive}
