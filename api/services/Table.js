@@ -45,7 +45,7 @@ var model = {
             activePlayers: {$lt:4}
         }).exec(function(err, table){
                if(table){
-                   callback(err, table)
+                   callback(err, table);
                }else{
                    var table = new Table({});
                    table.save(callback);
